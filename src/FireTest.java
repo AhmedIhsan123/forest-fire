@@ -20,4 +20,6 @@ public class FireTest {
 
         assertEquals(expected, actual);
     }
+
+    // Add more tests!
 }
