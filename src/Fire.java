@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class Fire {
     /**
      * Returns how long it takes for all vulnerable trees to be set on fire if a
@@ -38,8 +41,54 @@ public class Fire {
     public static int timeToBurn(char[][] forest, int matchR, int matchC) {
         // HINT: when adding to your BFS queue, you can include more information than
         // just a location. What other information might be useful?
-
+        boolean validSpot = forest[matchR][matchC] == 't';
+        List<Location> neighbors = neighbors(forest, new Location(matchR, matchC));
+        for(Location x : neighbors) {
+            System.out.println(x);
+        }
+        if (!validSpot) return -1;
         // Implement this AND add more tests!!!
-        return -1;
+        return 0;
+    }
+
+    public static void main(String[] args) {
+        char[][] forest = {
+            {'t', 't', 't', '.'},
+            {'.', 't', '.', 't'},
+            {'t', 't', 't', 't'},
+            {'.', '.', 't', '.'}
+        };
+
+        int matchR = 2;
+        int matchC = 1;
+
+        System.out.println(forest[matchR][matchC]);
+
+        int result = timeToBurn(forest, matchR, matchC);
+        System.out.println("Time to burn: " + result);
+    }
+
+    public static List<Location> neighbors(char[][] forest, Location currentLoc) {
+        List<Location> result = new ArrayList<>();
+
+        int[][] moves = new int[][] {
+            {-1, 0},    // up
+            {1, 0},    // down
+            {0, -1},  // left
+            {0, 1}   // right
+        };
+
+        for (int[] move : moves) {
+            int newR = currentLoc.row() + move[0];
+            int newC = currentLoc.col() + move[1];
+            char loc = forest[newR][newC];
+            if (
+                (newR >= 0 && newR < forest.length) && 
+                (newC >= 0 && newC < forest[0].length) && 
+                (loc != '.')) {
+                    result.add(new Location(newR, newC));
+            }
+        }
+        return result;
     }
 }
